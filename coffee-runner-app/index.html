@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Afacad:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <title>Chaos Coffee Order</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">Internal event assistant</p>
+        <h1>Chaos Coffee Orders</h1>
+      </div>
+    </header>
+
+    <main>
+      <section id="statusBanner" class="banner hidden"></section>
+
+      <section id="eventsView" class="view active">
+        <div class="section-heading">
+        </div>
+
+        <div class="search-wrap">
+          <input id="guestSearchInput" type="search" placeholder="Search all guests across events" />
+        </div>
+
+        <div id="eventsList" class="card-list"></div>
+      </section>
+
+      <section id="guestsView" class="view">
+        <div class="section-heading stack-mobile">
+          <div>
+            <button id="backToEventsBtn" class="text-btn">← Back to events</button>
+            <h2 id="guestViewTitle">Guests</h2>
+            <p id="guestViewMeta"></p>
+          </div>
+          <div class="header-actions">
+            <button id="openCartBtn" class="primary-btn">Cart <span id="cartCountBadge" class="badge">0</span></button>
+          </div>
+          <dialog id="addGuestDialog">
+            <form id="addGuestForm">
+              <h3>Add Guest</h3>
+
+              <input id="newGuestName" placeholder="Name" required />
+              <input id="newGuestDrink" placeholder="Drink (e.g. Hot latte oat milk)" required />
+
+              <button type="submit">Add & Order</button>
+              <button type="button" id="cancelAddGuest">Cancel</button>
+            </form>
+          </dialog>
+          <button id="addGuestBtn" class="addGuest-btn">+ Add Guest</button>
+        </div>
+<section id="starbucksPanel" class="card starbucks-panel collapsed">
+  <button type="button" id="toggleStarbucksPanel" class="starbucks-panel-head">
+    <div>
+      <h3>Starbucks quick add</h3>
+      <p class="meta">Tap to open quick standard drinks</p>
+    </div>
+    <span id="starbucksPanelStatus" class="status-pill">Open</span>
+  </button>
+
+  <div id="starbucksPanelBody" class="starbucks-panel-body">
+    <div id="starbucksRows" class="starbucks-rows"></div>
+  </div>
+</section>
+
+        <div id="guestList" class="card-list"></div>
+      </section>
+
+      <section id="cartView" class="view">
+        <div class="section-heading stack-mobile">
+          <div>
+            <button id="backToGuestsBtn" class="text-btn">← Back to guests</button>
+            <h2>Cart</h2>
+            <p>Japanese order text is ready for the café.</p>
+          </div>
+          <div class="header-actions">
+            <button id="clearCartBtn" class="ghost-btn danger">Clear cart</button>
+          </div>
+        </div>
+        <div id="cartList" class="card-list"></div>
+      </section>
+    </main>
+  </div>
+
+  <dialog id="orderDialog" class="order-dialog">
+    <form id="orderForm" method="dialog">
+      <div class="dialog-head">
+        <div>
+          <p class="eyebrow">Create order</p>
+          <h3 id="dialogGuestName">Guest</h3>
+          <p id="dialogGuestMeta"></p>
+        </div>
+        <button type="button" id="closeDialogBtn" class="icon-btn" aria-label="Close">✕</button>
+      </div>
+
+      <div class="field-block">
+        <label for="presetSelect">Previous orders</label>
+        <select id="presetSelect"></select>
+      </div>
+
+      <div class="field-block">
+        <label for="todayOrderInput">Today's order</label>
+        <input
+          id="todayOrderInput"
+          type="text"
+          placeholder="Type today's drink if it's different"
+        />
+      </div>
+
+      <div class="field-block">
+        <label for="sizeSelect">Size</label>
+        <select id="sizeSelect">
+          <option value="">No size</option>
+          <option value="S">S</option>
+          <option value="M">M</option>
+          <option value="L">L</option>
+          <option value="XL">XL</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+
+      <div class="chips-block">
+        <p class="field-label">Today’s changes</p>
+        <div id="modifierChips" class="chips"></div>
+      </div>
+
+      <div class="field-block">
+        <label for="todayNoteInput">Today’s note</label>
+        <textarea id="todayNoteInput" rows="3" placeholder="oat milk on side, cold / no foam / less hot"></textarea>
+      </div>
+
+      <div class="preview-box">
+        <p class="preview-label">Japanese preview</p>
+        <p id="japanesePreview">—</p>
+      </div>
+
+      <div class="dialog-actions">
+        <button type="button" id="cancelOrderBtn" class="ghost-btn">Cancel</button>
+        <button type="submit" class="primary-btn">Confirm</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+
+</html>
