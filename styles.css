@@ -1,15 +1,26 @@
 :root {
-  --bg: #f6f3ee;
-  --surface: #ffffff;
-  --surface-soft: #f3efe8;
-  --text: #201913;
-  --muted: #6c6158;
-  --line: #ddd3c7;
-  --accent: #7b4c2b;
-  --accent-strong: #60391f;
-  --danger: #9d3c30;
-  --success: #2d6a4f;
-  --shadow: 0 10px 30px rgba(32, 25, 19, 0.08);
+  --surface: #fff;
+  --surface-soft: #fbf1e8;
+  --text: #82430c;
+  --muted: #82430c;
+  --line: rgba(130, 67, 12, 0.21);
+  --accent: #82430c;
+  --shadow: 0 2px 0 #82430c;
+  --radius-card: 10px;
+  --radius-soft: 10px;
+  --radius-pill: 999px;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 * {
@@ -24,8 +35,11 @@ body {
 }
 
 body {
-  background: var(--bg);
+  background: linear-gradient(45deg, #fffcec, #ffedd4, #ffd0c6);
+  background-size: 400% 400%;
+  animation: gradient 15s ease infinite;
   color: var(--text);
+  height: 100vh;
   font-family: Afacad, ui-sans-serif, system-ui, -apple-system, sans-serif;
   -webkit-text-size-adjust: 100%;
 }
@@ -43,14 +57,6 @@ h3,
 h4,
 p {
   margin: 0;
-}
-
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  background: var(--bg);
-  z-index: -2;
 }
 
 .app-shell {
@@ -93,11 +99,10 @@ body::before {
 }
 
 .banner {
-  background: #fff7d8;
-  color: #694f00;
-  border: 1px solid #e5d48c;
+  background: var(--accent);
+  color: #fff;
   padding: 12px 14px;
-  border-radius: 14px;
+  border-radius: var(--radius-card);
   margin-bottom: 16px;
 }
 
@@ -141,15 +146,11 @@ body::before {
 
 .card {
   background: var(--surface);
+  color: #000;
   border: 1px solid var(--line);
-  border-radius: 16px;
+  border-radius: var(--radius-card);
   padding: 12px;
   box-shadow: var(--shadow);
-}
-
-.event-card,
-.guest-card {
-  cursor: pointer;
 }
 
 .card-top,
@@ -159,7 +160,9 @@ body::before {
 }
 
 .card-top h3,
-.card-top h4 {
+.card-top h4,
+.starbucks-panel-head h3 {
+  background-color: #fff;
   font-size: 16px;
   line-height: 1.2;
 }
@@ -172,22 +175,24 @@ body::before {
   line-height: 1.35;
 }
 
-.order-summary {
-  font-size: 14px;
-  line-height: 1.35;
-}
-
 .order-summary,
 .jp-order {
   margin-top: 8px;
+  font-size: 14px;
+  line-height: 1.35;
+}
+
+.jp-order,
+.preview-box,
+.icon-btn,
+.status-pill,
+.starbucks-line {
+  background: var(--surface-soft);
 }
 
 .jp-order {
-  background: var(--surface-soft);
-  border-radius: 12px;
+  border-radius: var(--radius-soft);
   padding: 10px;
-  font-size: 14px;
-  line-height: 1.35;
 }
 
 .search-wrap {
@@ -202,7 +207,7 @@ textarea {
   min-height: 44px;
   border: 1px solid var(--line);
   background: var(--surface);
-  border-radius: 12px;
+  border-radius: var(--radius-card);
   padding: 12px 14px;
   color: var(--text);
   font-size: 16px;
@@ -217,23 +222,29 @@ textarea {
 .ghost-btn,
 .text-btn,
 .chip,
-.icon-btn {
+.icon-btn,
+.addGuest-btn {
   border: none;
-  cursor: pointer;
   min-height: 42px;
   font-size: 14px;
+}
+
+.primary-btn,
+.addGuest-btn {
+  padding: 10px 14px;
+  border-radius: var(--radius-soft);
 }
 
 .primary-btn {
   background: var(--accent);
   color: #fff;
-  padding: 10px 14px;
-  border-radius: 12px;
   font-weight: 600;
 }
 
-.primary-btn:hover {
-  background: var(--accent-strong);
+.addGuest-btn {
+  background: #fffcf3;
+  color: var(--accent);
+  font-weight: 400;
 }
 
 .ghost-btn {
@@ -241,11 +252,11 @@ textarea {
   color: var(--text);
   border: 1px solid var(--line);
   padding: 10px 14px;
-  border-radius: 12px;
+  border-radius: var(--radius-soft);
 }
 
 .ghost-btn.danger {
-  color: var(--danger);
+  color: var(--accent);
 }
 
 .text-btn {
@@ -258,21 +269,10 @@ textarea {
 .icon-btn {
   width: 38px;
   height: 38px;
-  border-radius: 12px;
-  background: var(--surface-soft);
+  border-radius: var(--radius-soft);
   display: inline-flex;
   align-items: center;
   justify-content: center;
-}
-
-.addGuest-btn {
-  border-radius: 14px;
-  border: none;
-  cursor: pointer;
-  background: #FFFCF3;
-  color: #60391f;
-  padding: 12px 16px;
-  font-weight: 400;
 }
 
 .badge {
@@ -282,7 +282,7 @@ textarea {
   min-width: 24px;
   height: 24px;
   background: rgba(255, 255, 255, 0.2);
-  border-radius: 999px;
+  border-radius: var(--radius-pill);
   padding: 0 8px;
   margin-left: 6px;
 }
@@ -291,16 +291,15 @@ textarea {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: var(--surface-soft);
   color: var(--muted);
-  border-radius: 999px;
+  border-radius: var(--radius-pill);
   padding: 6px 10px;
   font-size: 11px;
   white-space: nowrap;
 }
 
 .status-pill.active {
-  color: var(--success);
+  color: var(--accent);
 }
 
 .order-dialog,
@@ -308,7 +307,7 @@ dialog {
   width: calc(100vw - 24px);
   max-width: 760px;
   border: none;
-  border-radius: 18px;
+  border-radius: 10px;
   padding: 0;
   box-shadow: 0 30px 70px rgba(0, 0, 0, 0.18);
 }
@@ -345,8 +344,7 @@ label,
 }
 
 .preview-box {
-  background: var(--surface-soft);
-  border-radius: 14px;
+  border-radius: 10px;
   padding: 12px;
 }
 
@@ -357,10 +355,10 @@ label,
 }
 
 .chip {
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  padding: 10px 12px;
+  background: var(--surface-soft);
+  border-radius: var(--radius-pill);
+  padding: 8px 10px;
+  font-size: 12px;
 }
 
 .chip.selected {
@@ -403,7 +401,6 @@ label,
   display: flex;
   align-items: flex-start;
   gap: 10px;
-  cursor: pointer;
 }
 
 .order-card input[type="checkbox"] {
@@ -447,20 +444,13 @@ label,
 .starbucks-panel-head {
   width: 100%;
   display: flex;
+  background: var(--surface);
   align-items: flex-start;
   justify-content: space-between;
   gap: 12px;
-  background: transparent;
   border: 0;
   padding: 0;
   text-align: left;
-  cursor: pointer;
-}
-
-.starbucks-panel-head h3 {
-  margin: 0;
-  font-size: 16px;
-  line-height: 1.2;
 }
 
 .starbucks-panel-head .meta {
@@ -482,10 +472,8 @@ label,
 }
 
 .starbucks-line {
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  border-radius: 14px;
+  border-radius: 10px;
   padding: 10px;
-  background: #fff;
 }
 
 .starbucks-line-name {
@@ -500,10 +488,18 @@ label,
   gap: 10px;
 }
 
+.starbucks-line-actions {
+  display: flex;
+  align-items: end;
+}
+
+.starbucks-line-actions .primary-btn {
+  height: 42px;
+  padding: 0 12px;
+}
 .starbucks-line-block .field-label {
   margin-bottom: 6px;
   font-size: 12px;
-  opacity: 0.7;
 }
 
 .starbucks-line-actions {
@@ -518,22 +514,21 @@ label,
 .qty-row {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
 }
 
 .qty-row .ghost-btn {
-  min-width: 42px;
-  padding: 0 10px;
+  min-width: 36px;
+  height: 36px;
+  padding: 0;
 }
 
 .qty-value {
-  min-width: 28px;
+  min-width: 24px;
   text-align: center;
   font-weight: 700;
-  font-size: 16px;
 }
 
-/* desktop still shows mobile layout, just with a centered phone-like shell */
 @media (min-width: 641px) {
   .app-shell {
     padding: 16px;

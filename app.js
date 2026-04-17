@@ -42,7 +42,7 @@
     dialogGuestMeta: document.getElementById("dialogGuestMeta"),
     presetSelect: document.getElementById("presetSelect"),
     todayOrderInput: document.getElementById("todayOrderInput"),
-    sizeSelect: document.getElementById("sizeSelect"),
+    sizeChips: document.getElementById("sizeChips"),
     modifierChips: document.getElementById("modifierChips"),
     todayNoteInput: document.getElementById("todayNoteInput"),
     japanesePreview: document.getElementById("japanesePreview"),
@@ -61,6 +61,7 @@
   const state = {
     events: [],
     guests: [],
+    selectedSize: "",
     starbucksMenu: [],
     selectedEventId: localStorage.getItem(SELECTED_EVENT_KEY) || null,
     cartByEvent: loadCart(),
@@ -70,6 +71,34 @@
     starbucksOpen: false,
     starbucksSelections: {},
   };
+
+  const sizeOptions = ["S", "M", "L", "XL", "Other"];
+
+  function renderSizeChips() {
+  if (!els.sizeChips) return;
+
+  els.sizeChips.innerHTML = sizeOptions
+    .map(
+      (size) => `
+      <button
+        type="button"
+        class="chip ${state.selectedSize === size ? "selected" : ""}"
+        data-size="${size}"
+      >
+        ${size}
+      </button>
+    `
+    )
+    .join("");
+
+  els.sizeChips.querySelectorAll("[data-size]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      state.selectedSize = btn.dataset.size;
+      renderSizeChips();
+      updateJapanesePreview();
+    });
+  });
+}
 
   function loadCart() {
     try {
@@ -135,7 +164,7 @@
     try {
       hideBanner();
 
-      const response = await fetch(SHEETS_ENDPOINT, { cache: "no-store" });
+      const response = await fetch(SHEETS_ENDPOINT, { cache: "default" });
       if (!response.ok) {
         throw new Error(`Request failed with ${response.status}`);
       }
@@ -700,7 +729,8 @@
     if (els.dialogGuestMeta) els.dialogGuestMeta.textContent = "";
     if (els.todayNoteInput) els.todayNoteInput.value = "";
     if (els.todayOrderInput) els.todayOrderInput.value = "";
-    if (els.sizeSelect) els.sizeSelect.value = "";
+    state.selectedSize = "";
+renderSizeChips();
 
     const presets = guest.presets.length
       ? guest.presets
@@ -771,9 +801,9 @@
     return { guest, preset };
   }
 
-  function getSelectedSize() {
-    return els.sizeSelect?.value || "";
-  }
+function getSelectedSize() {
+  return state.selectedSize || "";
+}
 
   function buildJapaneseSummary() {
     const { preset } = getActiveGuestAndPreset();
@@ -988,7 +1018,6 @@
 
   els.todayNoteInput?.addEventListener("input", updateJapanesePreview);
   els.todayOrderInput?.addEventListener("input", updateJapanesePreview);
-  els.sizeSelect?.addEventListener("change", updateJapanesePreview);
 
   els.orderForm?.addEventListener("submit", (event) => {
     event.preventDefault();
